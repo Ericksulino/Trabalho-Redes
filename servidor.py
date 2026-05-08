@@ -42,13 +42,14 @@ logger = logging.getLogger("servidor")
 # MODO TCP
 # =============================================================================
 
-def servidor_tcp():
+def servidor_tcp(uma_vez=False):
     """
     Servidor TCP simples.
     - Aceita conexões de clientes
     - Lê o nome e tamanho do arquivo que virá
     - Recebe os bytes e salva no disco
     - Registra tempo e throughput
+    - Se uma_vez=True, encerra após atender 1 cliente
     """
     logger.info(f"[TCP] Aguardando conexões em {HOST}:{PORT_TCP}")
 
@@ -64,6 +65,9 @@ def servidor_tcp():
             # Cada cliente é tratado em uma thread separada
             t = threading.Thread(target=_tratar_cliente_tcp, args=(conn, addr), daemon=True)
             t.start()
+            if uma_vez:
+                t.join()  # Espera este cliente terminar e encerra
+                break
 
 
 def _tratar_cliente_tcp(conn: socket.socket, addr):
@@ -140,7 +144,7 @@ def _tratar_cliente_tcp(conn: socket.socket, addr):
 # MODO R-UDP com SELECTIVE REPEAT
 # =============================================================================
 
-def servidor_rudp():
+def servidor_rudp(uma_vez=False):
     """
     Servidor R-UDP com Selective Repeat.
 
@@ -192,6 +196,8 @@ def servidor_rudp():
             elif tem_flag(flags, FLAG_FIN):
                 _tratar_fin_rudp(srv, addr, estado)
                 del clientes[addr]  # Limpa estado do cliente
+                if uma_vez:
+                    break
 
 
 def _novo_estado_cliente() -> dict:
@@ -352,9 +358,14 @@ if __name__ == "__main__":
         required=True,
         help="Protocolo a usar: 'tcp' ou 'rudp'"
     )
+    parser.add_argument(
+        "--uma-vez",
+        action="store_true",
+        help="Encerra após atender 1 cliente"
+    )
     args = parser.parse_args()
 
     if args.modo == "tcp":
-        servidor_tcp()
+        servidor_tcp(uma_vez=args.uma_vez)
     else:
-        servidor_rudp()
+        servidor_rudp(uma_vez=args.uma_vez)

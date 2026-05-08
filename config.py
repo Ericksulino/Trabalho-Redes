@@ -10,7 +10,7 @@ X_CUSTOM_AUTH = f"{MATRICULA} {NOME}"  # Valor que vai no cabeçalho dos pacotes
 
 # ── Rede ─────────────────────────────────────────────────────────────────────
 HOST = "0.0.0.0"          # O servidor escuta em todas as interfaces
-SERVER_IP = "127.0.0.1"   # IP do servidor (cliente usa isso para conectar)
+SERVER_IP = "172.20.0.10"   # IP do servidor (cliente usa isso para conectar)
 
 PORT_TCP  = 5001           # Porta para o modo TCP
 PORT_RUDP = 5002           # Porta para o modo R-UDP
