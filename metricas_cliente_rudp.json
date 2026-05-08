@@ -1,0 +1,54 @@
+[
+  {
+    "modo": "R-UDP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T19:51:42.834434",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 2.4938,
+    "throughput_mbps": 4.0099,
+    "retransmissoes": 0,
+    "pacotes_enviados": 10240,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:51:45.391419"
+  },
+  {
+    "modo": "R-UDP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:23:00.690767",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 14.0446,
+    "throughput_mbps": 0.712,
+    "retransmissoes": 0,
+    "pacotes_enviados": 10240,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:23:14.863754"
+  },
+  {
+    "modo": "R-UDP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:27:27.089710",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 751.8247,
+    "throughput_mbps": 0.0133,
+    "retransmissoes": 1102,
+    "pacotes_enviados": 10240,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:39:59.062283"
+  },
+  {
+    "modo": "R-UDP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:42:40.822091",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 1361.5384,
+    "throughput_mbps": 0.0073,
+    "retransmissoes": 2589,
+    "pacotes_enviados": 10240,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T21:05:24.519434"
+  }
+]

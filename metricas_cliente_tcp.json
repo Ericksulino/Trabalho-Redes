@@ -1,0 +1,57 @@
+[
+  {
+    "modo": "TCP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T19:50:55.885920",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 0.2188,
+    "throughput_mbps": 45.709,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:50:56.106073"
+  },
+  {
+    "modo": "TCP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:07:21.100094",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 0.3398,
+    "throughput_mbps": 29.4286,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:07:21.451712"
+  },
+  {
+    "modo": "TCP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:21:00.430536",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 0.2936,
+    "throughput_mbps": 34.0546,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:21:00.736114"
+  },
+  {
+    "modo": "TCP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:24:44.732525",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 1.1752,
+    "throughput_mbps": 8.5091,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:24:45.959501"
+  },
+  {
+    "modo": "TCP",
+    "arquivo": "arquivo_teste.bin",
+    "tamanho_bytes": 10485760,
+    "inicio": "2026-05-08T20:41:28.986712",
+    "bytes_enviados": 10485760,
+    "tempo_transferencia_s": 2.1549,
+    "throughput_mbps": 4.6407,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:41:32.266397"
+  }
+]

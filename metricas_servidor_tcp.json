@@ -1,0 +1,82 @@
+[
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.20', 51442)",
+    "inicio": "2026-05-08T19:50:55.888823",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.2283,
+    "throughput_mbps": 43.8023,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:50:56.117714"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.10', 52528)",
+    "inicio": "2026-05-08T19:59:29.350640",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.3869,
+    "throughput_mbps": 25.8436,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:59:29.738204"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.10', 34222)",
+    "inicio": "2026-05-08T19:59:44.053995",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.1801,
+    "throughput_mbps": 55.5257,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:59:44.234486"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.10', 47496)",
+    "inicio": "2026-05-08T19:59:58.972858",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.1735,
+    "throughput_mbps": 57.6338,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T19:59:59.146843"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.20', 34402)",
+    "inicio": "2026-05-08T20:07:21.112514",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.4248,
+    "throughput_mbps": 23.5425,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:07:21.538408"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.20', 58066)",
+    "inicio": "2026-05-08T20:21:00.443523",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 0.3359,
+    "throughput_mbps": 29.7703,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:21:00.780148"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.20', 56628)",
+    "inicio": "2026-05-08T20:24:44.784825",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 1.4197,
+    "throughput_mbps": 7.0436,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:24:46.205301"
+  },
+  {
+    "modo": "TCP",
+    "cliente": "('172.20.0.20', 60378)",
+    "inicio": "2026-05-08T20:41:30.113489",
+    "bytes_recebidos": 10485760,
+    "tempo_transferencia_s": 2.5296,
+    "throughput_mbps": 3.9532,
+    "x_custom_auth": "20261011376 ERICKSULINO_MANOEL_DE_ARAUJO_MOURA",
+    "fim": "2026-05-08T20:41:32.647573"
+  }
+]
