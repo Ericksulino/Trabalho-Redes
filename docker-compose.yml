@@ -1,0 +1,55 @@
+# =============================================================================
+# docker-compose.yml — Orquestra os containers de servidor e cliente
+# =============================================================================
+#
+# Como usar:
+#   docker-compose up --build          (sobe tudo)
+#   docker-compose exec servidor bash  (abre shell no servidor)
+#   docker-compose exec cliente bash   (abre shell no cliente)
+#
+# Nos containers, você pode rodar os scripts manualmente e usar o tc.
+
+version: "3.9"
+
+networks:
+  rede_teste:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24  # Sub-rede dedicada para os testes
+
+services:
+
+  # ── Servidor ────────────────────────────────────────────────────────────────
+  servidor:
+    build: .
+    container_name: srv_redes
+    hostname: servidor
+    networks:
+      rede_teste:
+        ipv4_address: 172.20.0.10  # IP fixo para facilitar a configuração do cliente
+    volumes:
+      - ./capturas:/app/capturas   # Persiste as capturas no host
+    # NET_ADMIN: necessário para usar 'tc' e modificar regras de rede
+    # NET_RAW:   necessário para o tcpdump capturar tráfego
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    command: tail -f /dev/null     # Mantém o container ativo para uso manual
+
+  # ── Cliente ─────────────────────────────────────────────────────────────────
+  cliente:
+    build: .
+    container_name: cli_redes
+    hostname: cliente
+    networks:
+      rede_teste:
+        ipv4_address: 172.20.0.20
+    volumes:
+      - ./capturas:/app/capturas
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - servidor
+    command: tail -f /dev/null     # Mantém o container ativo para uso manual
