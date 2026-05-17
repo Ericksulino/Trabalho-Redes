@@ -1,6 +1,4 @@
-# =============================================================================
-# rudp_protocol.py — Estrutura de pacotes e funções auxiliares do R-UDP
-# =============================================================================
+# rudp_protocol.py  Estrutura de pacotes e funções auxiliares do R-UDP
 #
 # Este arquivo define como cada pacote R-UDP é montado e desmontado.
 # É usado tanto pelo cliente quanto pelo servidor.
@@ -14,7 +12,6 @@
 #  Bytes 13-16 : Checksum CRC32     (int, 4 bytes)
 #  Bytes 17-19 : Reservado (zeros)  (3 bytes)
 #  Bytes 20+   : Payload (dados)
-# =============================================================================
 
 import struct
 import zlib
@@ -26,7 +23,7 @@ import logging
 HEADER_FORMAT = "!IIBI4sxxx"   # seq, ack, flags, length, checksum, 3 bytes padding
 HEADER_SIZE   = struct.calcsize(HEADER_FORMAT)  # deve dar 20 bytes
 
-# ── Flags de controle ─────────────────────────────────────────────────────────
+# Flags de controle
 FLAG_SYN  = 0x01   # Início de conexão
 FLAG_FIN  = 0x02   # Fim de transferência
 FLAG_ACK  = 0x04   # Confirmação de recebimento

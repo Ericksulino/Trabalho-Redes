@@ -1,9 +1,8 @@
 #!/bin/bash
-# =============================================================================
-# servidor_cenario.sh — Roda no container do SERVIDOR
+# servidor_cenario.sh  Roda no container do SERVIDOR
 # Uso: bash servidor_cenario.sh A tcp    (cenário A, modo TCP)
 #      bash servidor_cenario.sh A rudp   (cenário A, modo R-UDP)
-# =============================================================================
+
 
 CENARIO=$1
 MODO=$2

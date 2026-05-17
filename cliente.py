@@ -1,13 +1,11 @@
-# =============================================================================
+
 # cliente.py — Cliente de transferência de arquivos (TCP e R-UDP)
-# =============================================================================
 #
 # Como usar:
 #   python cliente.py --modo tcp  --arquivo arquivo_teste.bin
 #   python cliente.py --modo rudp --arquivo arquivo_teste.bin
 #
 # O cliente lê o arquivo, envia para o servidor e registra métricas.
-# =============================================================================
 
 import socket
 import argparse
@@ -38,9 +36,8 @@ logging.basicConfig(
 logger = logging.getLogger("cliente")
 
 
-# =============================================================================
+
 # MODO TCP
-# =============================================================================
 
 def enviar_tcp(caminho_arquivo: str):
     """
@@ -72,7 +69,7 @@ def enviar_tcp(caminho_arquivo: str):
         s.connect((SERVER_IP, PORT_TCP))
         logger.info(f"[TCP] Conectado! Enviando '{nome_arquivo}' ({tamanho} bytes)")
 
-        # ── 1. Envia metadados ──────────────────────────────────────────────
+        #Envia metadados ─
         meta = json.dumps({
             "nome": nome_arquivo,
             "tamanho": tamanho,
@@ -80,7 +77,7 @@ def enviar_tcp(caminho_arquivo: str):
         }).encode() + b"\n"
         s.sendall(meta)
 
-        # ── 2. Envia dados do arquivo ───────────────────────────────────────
+        #Envia dados do arquivo 
         bytes_enviados = 0
         inicio = time.perf_counter()
 
@@ -111,9 +108,8 @@ def enviar_tcp(caminho_arquivo: str):
     return metricas
 
 
-# =============================================================================
+
 # MODO R-UDP com SELECTIVE REPEAT
-# =============================================================================
 
 def enviar_rudp(caminho_arquivo: str):
     """
@@ -146,7 +142,7 @@ def enviar_rudp(caminho_arquivo: str):
         "x_custom_auth": X_CUSTOM_AUTH,
     }
 
-    # ── Fragmenta o arquivo em chunks ────────────────────────────────────────
+    #Fragmenta o arquivo em chunks
     chunks = _fragmentar_arquivo(caminho_arquivo, CHUNK_SIZE)
     total_pacotes = len(chunks)
     logger.info(f"[R-UDP] Arquivo dividido em {total_pacotes} pacotes")
@@ -156,12 +152,12 @@ def enviar_rudp(caminho_arquivo: str):
 
         destino = (SERVER_IP, PORT_RUDP)
 
-        # ── HANDSHAKE: envia SYN com metadados ───────────────────────────────
+        #HANDSHAKE: envia SYN com metadados
         if not _enviar_syn(s, destino, nome_arquivo, tamanho):
             logger.error("[R-UDP] Falha no handshake. Abortando.")
             return None
 
-        # ── TRANSFERÊNCIA com Selective Repeat ───────────────────────────────
+        #TRANSFERÊNCIA com Selective Repeat
         inicio = time.perf_counter()
 
         # Estado da janela deslizante
@@ -174,7 +170,7 @@ def enviar_rudp(caminho_arquivo: str):
         pacotes_enviados = 0
 
         while base < total_pacotes:
-            # ── Envia pacotes dentro da janela ────────────────────────────────
+            #Envia pacotes dentro da janela
             while proximo_seq < total_pacotes and proximo_seq < base + WINDOW_SIZE:
                 if proximo_seq not in acks:
                     _enviar_pacote_data(s, destino, proximo_seq, chunks[proximo_seq])
@@ -183,7 +179,7 @@ def enviar_rudp(caminho_arquivo: str):
                     pacotes_enviados += 1
                 proximo_seq += 1
 
-            # ── Aguarda ACKs ──────────────────────────────────────────────────
+            # Aguarda ACKs
             try:
                 dados_brutos, _ = s.recvfrom(HEADER_SIZE + 100)
                 resultado = desmontar_pacote(dados_brutos)
@@ -202,7 +198,7 @@ def enviar_rudp(caminho_arquivo: str):
             except socket.timeout:
                 pass  # Nenhum ACK chegou agora — verifica timeouts abaixo
 
-            # ── Verifica timeouts e retransmite ───────────────────────────────
+            # Verifica timeouts e retransmite
             agora = time.perf_counter()
             for seq in range(base, min(proximo_seq, base + WINDOW_SIZE)):
                 if seq not in acks and seq in timers:
@@ -221,7 +217,7 @@ def enviar_rudp(caminho_arquivo: str):
                         timers[seq] = agora  # Reinicia o timer
                         retransmissoes += 1
 
-        # ── ENCERRAMENTO: envia FIN ───────────────────────────────────────────
+        # ENCERRAMENTO: envia FIN
         _enviar_fin(s, destino)
 
         fim = time.perf_counter()
@@ -246,9 +242,8 @@ def enviar_rudp(caminho_arquivo: str):
     return metricas
 
 
-# =============================================================================
+
 # FUNÇÕES AUXILIARES DO R-UDP
-# =============================================================================
 
 def _fragmentar_arquivo(caminho: str, tamanho_chunk: int) -> list:
     """Lê o arquivo e retorna uma lista de bytes (um por pacote)."""
@@ -320,9 +315,7 @@ def _enviar_fin(s: socket.socket, destino):
             logger.warning(f"[R-UDP] FIN timeout na tentativa {tentativa}")
 
 
-# =============================================================================
 # UTILITÁRIOS
-# =============================================================================
 
 def _mostrar_progresso(atual: int, total: int, unidade: str = "bytes"):
     """Exibe barra de progresso simples no terminal."""
@@ -354,9 +347,8 @@ def _salvar_metricas(metricas: dict, caminho: str):
     logger.info(f"Métricas salvas em '{caminho}'")
 
 
-# =============================================================================
+
 # PONTO DE ENTRADA
-# =============================================================================
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cliente de transferência de arquivos")

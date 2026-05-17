@@ -1,13 +1,11 @@
-# =============================================================================
 # servidor.py — Servidor de transferência de arquivos (TCP e R-UDP)
-# =============================================================================
+
 #
 # Como usar:
 #   python servidor.py --modo tcp    (inicia servidor TCP na porta 5001)
 #   python servidor.py --modo rudp   (inicia servidor R-UDP na porta 5002)
 #
 # O servidor recebe o arquivo e salva como "recebido_<modo>.bin"
-# =============================================================================
 
 import socket
 import threading
@@ -29,7 +27,7 @@ from rudp_protocol import (
     tem_flag, HEADER_SIZE
 )
 
-# ── Configuração de logs ───────────────────────────────────────────────────────
+# Configuração de logs 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -38,9 +36,9 @@ logging.basicConfig(
 logger = logging.getLogger("servidor")
 
 
-# =============================================================================
+
 # MODO TCP
-# =============================================================================
+
 
 def servidor_tcp(uma_vez=False):
     """
@@ -84,7 +82,7 @@ def _tratar_cliente_tcp(conn: socket.socket, addr):
 
     try:
         with conn:
-            # ── 1. Recebe metadados do arquivo (JSON terminado em '\n') ──────
+            # Recebe metadados do arquivo (JSON terminado em '\n')
             meta_raw = b""
             while b"\n" not in meta_raw:
                 chunk = conn.recv(BUFFER_SIZE)
@@ -102,7 +100,7 @@ def _tratar_cliente_tcp(conn: socket.socket, addr):
 
             logger.info(f"[TCP] Recebendo '{nome_arquivo}' ({tamanho_total} bytes) | Auth: {x_auth}")
 
-            # ── 2. Recebe os dados do arquivo ─────────────────────────────────
+            # Recebe os dados do arquivo 
             arquivo_saida = f"recebido_tcp_{nome_arquivo}"
             bytes_recebidos = len(restante)
             inicio = time.perf_counter()
@@ -120,7 +118,7 @@ def _tratar_cliente_tcp(conn: socket.socket, addr):
             fim = time.perf_counter()
             tempo = fim - inicio
 
-            # ── 3. Calcula e registra métricas ────────────────────────────────
+            # Calcula e registra métricas
             throughput = (bytes_recebidos / tempo) / (1024 * 1024) if tempo > 0 else 0
 
             metricas["bytes_recebidos"] = bytes_recebidos
@@ -140,9 +138,7 @@ def _tratar_cliente_tcp(conn: socket.socket, addr):
         logger.error(f"[TCP] Erro ao tratar cliente {addr}: {e}")
 
 
-# =============================================================================
 # MODO R-UDP com SELECTIVE REPEAT
-# =============================================================================
 
 def servidor_rudp(uma_vez=False):
     """
@@ -178,21 +174,21 @@ def servidor_rudp(uma_vez=False):
 
             seq, ack_num, flags, payload = resultado
 
-            # ── Inicializa estado para novo cliente ───────────────────────────
+            # Inicializa estado para novo cliente
             if addr not in clientes:
                 clientes[addr] = _novo_estado_cliente()
 
             estado = clientes[addr]
 
-            # ── Trata SYN (início de transferência) ───────────────────────────
+            # Trata SYN (início de transferência)
             if tem_flag(flags, FLAG_SYN):
                 _tratar_syn_rudp(srv, addr, payload, estado)
 
-            # ── Trata DATA (pacote de dados) ──────────────────────────────────
+            # Trata DATA (pacote de dados)
             elif tem_flag(flags, FLAG_DATA):
                 _tratar_data_rudp(srv, addr, seq, payload, estado)
 
-            # ── Trata FIN (fim de transferência) ──────────────────────────────
+            #Trata FIN (fim de transferência)
             elif tem_flag(flags, FLAG_FIN):
                 _tratar_fin_rudp(srv, addr, estado)
                 del clientes[addr]  # Limpa estado do cliente
@@ -256,7 +252,7 @@ def _tratar_data_rudp(srv: socket.socket, addr, seq: int, payload: bytes, estado
     base = estado["base"]
     limite_janela = base + WINDOW_SIZE
 
-    # Pacote dentro da janela de recepção?
+    # Pacote dentro da janela de recepção
     if base <= seq < limite_janela:
         if seq not in estado["buffer"]:
             # Novo pacote — guarda no buffer
@@ -271,7 +267,7 @@ def _tratar_data_rudp(srv: socket.socket, addr, seq: int, payload: bytes, estado
                 estado["base"] += 1
 
         else:
-            # Pacote duplicado — reenvia ACK para ajudar o cliente
+            # Pacote duplicado reenvia ACK para ajudar o cliente
             estado["pacotes_duplicados"] += 1
             logger.debug(f"[R-UDP] Pacote duplicado seq={seq} de {addr}")
 
@@ -280,12 +276,12 @@ def _tratar_data_rudp(srv: socket.socket, addr, seq: int, payload: bytes, estado
         srv.sendto(ack_pkt, addr)
 
     elif seq < base:
-        # Pacote muito antigo — reenvia ACK (cliente não recebeu o ACK anterior)
+        # Pacote muito antigo reenvia ACK (cliente não recebeu o ACK anterior)
         ack_pkt = montar_pacote(seq=0, ack=seq, flags=FLAG_ACK)
         srv.sendto(ack_pkt, addr)
 
     else:
-        # Fora da janela de recepção — ignora silenciosamente
+        # Fora da janela de recepção ignora silenciosamente
         logger.debug(f"[R-UDP] Pacote seq={seq} fora da janela [{base}, {limite_janela}), ignorado.")
 
 
@@ -324,9 +320,8 @@ def _tratar_fin_rudp(srv: socket.socket, addr, estado: dict):
     _salvar_metricas(metricas, "metricas_servidor_rudp.json")
 
 
-# =============================================================================
 # UTILITÁRIOS
-# =============================================================================
+
 
 def _salvar_metricas(metricas: dict, caminho: str):
     """Salva métricas em um arquivo JSON (acumulando resultados)."""
@@ -346,9 +341,8 @@ def _salvar_metricas(metricas: dict, caminho: str):
     logger.info(f"Métricas salvas em '{caminho}'")
 
 
-# =============================================================================
+
 # PONTO DE ENTRADA
-# =============================================================================
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Servidor de transferência de arquivos")
