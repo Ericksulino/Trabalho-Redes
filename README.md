@@ -115,17 +115,6 @@ docker cp cli_redes:/app/metricas_cliente_rudp.json  .
 
 Os arquivos `.pcap` e `.csv` já estão em `capturas/` automaticamente (volume compartilhado).
 
----
-
-## Passo 6 — Verifique a integridade
-
-```bash
-docker-compose exec servidor python3 gerar_teste.py --verificar
-```
-
-Compara o MD5 do arquivo original com o recebido. Se mostrar ✓, a transferência foi perfeita.
-
----
 
 ## Métricas geradas automaticamente
 
